@@ -67,6 +67,26 @@ def generate_launch_description():
             on_start=[joint_broad_spawner]
         )
     )
+    
+    imu_broadcaster_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['imu_broadcaster']
+    )
+
+    delayed_imu_broadcaster_spawner = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=controller_manager,
+            on_start=[imu_broadcaster_spawner]
+        )
+    )
+
+    ekf_params_file = os.path.join(get_package_share_directory(package_name),'config','ekf.yaml')
+    start_robot_localization = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        parameters=[ekf_params_file]
+    )
 
     # Code for delaying a node (I haven't tested how effective it is)
     #
@@ -91,5 +111,7 @@ def generate_launch_description():
         twist_mux,
         delayed_controller_manager,
         delayed_diff_drive_spawner,
-        delayed_joint_broad_spawner
+        delayed_joint_broad_spawner,
+        delayed_imu_broadcaster_spawner,
+        start_robot_localization
     ])
