@@ -16,12 +16,12 @@ ekf_filter_node:
         odom0: diff_cont/odom
         odom0_differential: false
         odom0_relative: true 
-        # odom0_queue_size: 20
+        odom0_queue_size: 2
 
         imu0: imu_broadcaster/imu
         imu0_differential: false
         imu0_relative: true
-        # imu0_queue_size: 50
+        imu0_queue_size: 3
         
         #        [x_pos   , y_pos    , z_pos,
         #         roll    , pitch    , yaw,
