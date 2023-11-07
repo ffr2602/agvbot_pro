@@ -15,11 +15,11 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_ros2_control = LaunchConfiguration('use_ros2_control')
-    use_joint = LaunchConfiguration('use_joint')
+    view_bot = LaunchConfiguration('view_bot')
 
     rviz_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name),'launch','rviz_launch.py')]),
-        launch_arguments={'view_bot':'false','view_map':'false'}.items()
+        launch_arguments={'view_bot':view_bot,'view_map':'false'}.items()
     )
 
     xacro_file = os.path.join(get_package_share_directory(package_name),'description','robot.urdf.xacro')
@@ -34,7 +34,7 @@ def generate_launch_description():
     )
 
     node_robot_joint = Node(
-        condition=IfCondition(use_joint),
+        condition=IfCondition(view_bot),
         package='joint_state_publisher',
         executable='joint_state_publisher',
         output='screen'
@@ -50,7 +50,7 @@ def generate_launch_description():
             default_value='true',
             description=''),
         DeclareLaunchArgument(
-            'use_joint',
+            'view_bot',
              default_value='false',
              description=''),
 
