@@ -15,12 +15,16 @@ def generate_launch_description():
     package_name = 'agvbot_pro'  
 
     rsp = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name),'launch','rsp.launch.py')]),
+        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name),'launch','rsp_launch.py')]),
         launch_arguments={'use_sim_time':'false','use_ros2_control':'true'}.items()
     )
 
     joystick = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name),'launch','joystick.launch.py')])
+        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name),'launch','joystick_launch.py')])
+    )
+
+    lidar_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory(package_name),'launch','lidar_launch.py')])
     )
 
     twist_mux_params = os.path.join(get_package_share_directory(package_name),'config','twist_mux.yaml')
@@ -112,6 +116,7 @@ def generate_launch_description():
         delayed_controller_manager,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner,
-        delayed_imu_broadcaster_spawner,
-        start_robot_localization
+        # delayed_imu_broadcaster_spawner,
+        # start_robot_localization,
+        lidar_launch
     ])
