@@ -92,6 +92,13 @@ def generate_launch_description():
         parameters=[ekf_params_file]
     )
 
+    laser_filter_file = os.path.join(get_package_share_directory(package_name), 'config', 'laser_filter.yaml')
+    laser_filter = Node(
+        package="laser_filters",
+        executable="scan_to_scan_filter_chain",
+        parameters=[laser_filter_file]
+    )
+
     # Code for delaying a node (I haven't tested how effective it is)
     #
     # First add the below lines to imports
@@ -118,5 +125,6 @@ def generate_launch_description():
         delayed_joint_broad_spawner,
         # delayed_imu_broadcaster_spawner,
         # start_robot_localization,
-        lidar_launch
+        lidar_launch,
+        laser_filter
     ])
