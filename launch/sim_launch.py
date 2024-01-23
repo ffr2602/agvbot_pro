@@ -66,8 +66,14 @@ def generate_launch_description():
     start_robot_localization = Node(
         package='robot_localization',
         executable='ekf_node',
-        parameters=[ekf_params_file],
-        # remappings=['/odometry/filtered','/odom']
+        parameters=[ekf_params_file]
+    )
+
+    laser_filter_file = os.path.join(get_package_share_directory(package_name), 'config', 'laser_filter.yaml')
+    laser_filter = Node(
+        package="laser_filters",
+        executable="scan_to_scan_filter_chain",
+        parameters=[laser_filter_file]
     )
 
     # Launch them all!
@@ -79,6 +85,6 @@ def generate_launch_description():
         spawn_entity,
         diff_drive_spawner,
         joint_broad_spawner,
-        imu_broadcaster_spawner,
+        laser_filter,
         start_robot_localization
     ])
